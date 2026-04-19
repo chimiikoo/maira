@@ -1,0 +1,19 @@
+{
+  "name": "russian-nails",
+  "version": "2.0.0",
+  "description": "Russian Nails Frontend - Now using FastAPI backend for bookings",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "notes": {
+    "backend": "FastAPI backend is now in ../backend/main.py",
+    "startBackend": "cd ../backend && uvicorn main:app --reload",
+    "frontend": "npm start (starts static file server on http://localhost:3000)",
+    "bookingsAPI": "All bookings operations go to http://127.0.0.1:8000/api/bookings"
+  }
+}

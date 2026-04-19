@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nails by Maira Ⓜ️ | Luxury Manicure in NYC</title>
+    <!-- Premium SVG Favicon -->
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23121212'/><text x='50' y='68' font-family='Georgia, serif' font-size='48' font-style='italic' font-weight='bold' fill='%23D4AF37' text-anchor='middle'>RN</text></svg>">
+    <meta name="description"
+        content="Luxury Russian Manicure in New York. Precision. Cleanliness. Perfection. Book your appointment at Russian Nails by Maira.">
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Preconnect to Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Use Playfair Display for premium serif and Inter for clean readable sans-serif -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="logo">RN <span class="logo-accent">by Maira</span></div>
+            <ul class="nav-links">
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#about">Our Story</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#staff">Staff</a></li>
+            </ul>
+            <!-- Mobile Hamburger -->
+            <div class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <!-- Mobile Menu Overlay (positioned outside nav-container) -->
+            <div class="mobile-menu-overlay" id="menuOverlay" onclick="toggleMobileMenu()"></div>
+            <!-- Mobile Menu -->
+            <div class="mobile-menu" id="mobileMenu">
+                <ul class="mobile-nav-links">
+                    <li><a href="#hero" onclick="toggleMobileMenu()">Home</a></li>
+                    <li><a href="#about" onclick="toggleMobileMenu()">Our Story</a></li>
+                    <li><a href="#services" onclick="toggleMobileMenu()">Services</a></li>
+                    <li><a href="#staff" onclick="toggleMobileMenu()">Staff</a></li>
+                </ul>
+                <a href="#bookModal" onclick="openModal(event); toggleMobileMenu();" class="btn-primary" style="width: 100%; margin-top: 2rem;">Book Appointment</a>
+            </div>
+            <a href="#bookModal" onclick="openModal(event)" class="btn-outline-gold">Book Session</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+            <h1 class="fade-in">Nails <span class="gold-text">by Maira Ⓜ️</span></h1>
+            <p class="subtitle fade-in delay-1">Luxury Russian Manicure in New York</p>
+
+            <div class="separator fade-in delay-2"></div>
+
+            <p class="tagline fade-in delay-3">Precision. Cleanliness. Perfection.</p>
+
+            <div class="location-box fade-in delay-4">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                <p>144w 37TH street 6 floor office "4" NY10018</p>
+            </div>
+
+            <div class="cta-wrapper fade-in delay-5">
+                <p class="cta-text">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round"
+                        style="vertical-align: middle; margin-right: 5px;">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                    Book Your Appointment
+                </p>
+                <a href="#bookModal" onclick="openModal(event)" class="btn-primary hover-glow">BOOK NOW</a>
+            </div>
+        </div>
+
+        <div class="scroll-indicator fade-in delay-6">
+            <span class="mouse">
+                <span class="wheel"></span>
+            </span>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-text scroll-reveal right">
+                    <h2 class="section-title">The Art of <span class="gold-text">Elegance</span></h2>
+                    <p class="lead">At Russian Nails by Maira Ⓜ️, every detail matters.</p>
+                    <p class="paragraph">We specialize in advanced Russian manicure techniques known for their
+                        precision, cleanliness, and long-lasting results. Our work is not just nails — it is a form of
+                        art designed to enhance your elegance and confidence.</p>
+                    <p class="paragraph">Each client receives personalized attention in a calm, clean, and luxurious
+                        environment.</p>
+                    <div class="signature">Maira</div>
+                </div>
+                <!-- Image uses absolute path. Replace for deployment. -->
+                <div class="about-image scroll-reveal left">
+                    <img src="https://images.unsplash.com/photo-1632345031435-8727f6897d53?auto=format&fit=crop&w=1000&q=80"
+                        alt="Nail Salon Interior" class="img-premium shadow-lg">
+                    <div class="image-accent-border"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title text-center scroll-reveal up">Why Clients <span class="gold-text">Choose Us</span>
+            </h2>
+            <p class="section-subtitle text-center scroll-reveal up delay-1">Experience the pinnacle of nail care with
+                our dedicated approach.</p>
+
+            <div class="features-grid">
+                <!-- Card 1 -->
+                <div class="feature-card scroll-reveal up delay-1">
+                    <div class="icon-circle">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </div>
+                    <h3>Expert Nail Artists</h3>
+                    <p>Highly trained professionals with refined technique and experience.</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="feature-card scroll-reveal up delay-2">
+                    <div class="icon-circle">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5">
+                            <polygon
+                                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                            </polygon>
+                        </svg>
+                    </div>
+                    <h3>Premium Quality</h3>
+                    <p>Only the finest products, carefully selected to protect and enhance the natural nail.</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="feature-card scroll-reveal up delay-3">
+                    <div class="icon-circle">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="12"></line>
+                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                        </svg>
+                    </div>
+                    <h3>Precision Work</h3>
+                    <p>Flawless, detailed cuticle care performed with absolute gentleness and control.</p>
+                </div>
+                <!-- Card 4 -->
+                <div class="feature-card scroll-reveal up delay-1">
+                    <div class="icon-circle">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                            <line x1="8" y1="21" x2="16" y2="21"></line>
+                            <line x1="12" y1="17" x2="12" y2="21"></line>
+                        </svg>
+                    </div>
+                    <h3>Advanced Technology</h3>
+                    <p>State-of-the-art equipment ensures a clean, safe, and dust-free environment.</p>
+                </div>
+                <!-- Card 5 -->
+                <div class="feature-card scroll-reveal up delay-2">
+                    <div class="icon-circle">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>
+                    </div>
+                    <h3>Private Luxury Setting</h3>
+                    <p>An intimate studio experience designed for comfort, calm, and exclusivity.</p>
+                </div>
+                <!-- Card 6 -->
+                <div class="feature-card scroll-reveal up delay-3">
+                    <div class="icon-circle">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5">
+                            <path
+                                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3>Personalized Care</h3>
+                    <p>Every client is treated with attention, respect, and a tailored approach.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <h2 class="section-title text-center scroll-reveal up">Our <span class="gold-text">Menu</span></h2>
+
+            <div class="services-list">
+
+                <!-- Service Item 1 -->
+                <div class="service-item scroll-reveal up">
+                    <div class="service-content">
+                        <h4 class="service-title">Manicure</h4>
+                        <span class="service-tag">No polish, Minimalist Care, Maximum Clean</span>
+                        <p class="service-desc">A Russian-style dry manicure using e-file techniques to shape, smooth,
+                            and refresh your nails without polish. Promotes healthy growth and keeps your hands
+                            perfectly groomed and fresh.</p>
+                    </div>
+                </div>
+
+                <!-- Service Item 2 -->
+                <div class="service-item scroll-reveal up">
+                    <div class="service-content">
+                        <h4 class="service-title">Russian Manicure with Hard Gel</h4>
+                        <span class="service-tag">Strength Meets Beauty</span>
+                        <p class="service-desc">This reinforced manicure uses strengthening base layers and premium gel
+                            polish for added durability, protection, and shine. Lasts for 3.5-4 weeks and more.</p>
+                    </div>
+                </div>
+
+                <!-- Service Item 3 -->
+                <div class="service-item scroll-reveal up">
+                    <div class="service-content">
+                        <h4 class="service-title">Russian Gel Extension</h4>
+                        <span class="service-tag">Precision Sculpted</span>
+                        <p class="service-desc">Precision sculpted extensions that add length and structure, creating
+                            natural-looking nails with a smooth, durable finish.</p>
+                    </div>
+                </div>
+
+                <!-- Service Item 4 (Pedicure with image) -->
+                <div class="service-item with-image scroll-reveal up">
+                    <div class="service-content">
+                        <h4 class="service-title">Smart Gel Pedicure</h4>
+                        <span class="service-tag">Smooth. Strong. Stunning.</span>
+                        <p class="service-desc">This dry e-file pedicure deeply cleanses and reshapes your feet, removes
+                            buildup, and finishes with a hydrating mousse for soft, camera-ready toes.</p>
+                    </div>
+                    <!-- Using generated absolute path for pedicure -->
+                    <div class="service-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1522338242992-e1a54906a8da?auto=format&fit=crop&w=1000&q=80"
+                            alt="Luxury Smart Gel Pedicure">
+                    </div>
+                </div>
+
+                <!-- Service Item 5 -->
+                <div class="service-item scroll-reveal up">
+                    <div class="service-content">
+                        <h4 class="service-title">KART Pedicure</h4>
+                        <span class="service-tag">Treatment-Focused</span>
+                        <p class="service-desc">More than a regular pedicure — it's a treatment-focused service designed
+                            to safely and effectively improve the condition of the feet without aggressive filing.</p>
+                    </div>
+                </div>
+
+                <!-- Service Item 6 -->
+                <div class="service-item scroll-reveal up">
+                    <div class="service-content">
+                        <h4 class="service-title">Japanese Naked Manicure</h4>
+                        <span class="service-tag">Ancient Technique</span>
+                        <p class="service-desc">An ancient Japanese technique that involves buffing nutrients and
+                            healthy minerals deep into the nail bed, this manicure requires no polish. Perfect for
+                            anyone who wants their hands to look meticulously groomed and natural.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Staff Section -->
+    <section id="staff" class="staff">
+        <div class="container">
+            <h2 class="section-title text-center scroll-reveal up">Our <span class="gold-text">Masters</span></h2>
+            <p class="section-subtitle text-center scroll-reveal up delay-1">Meet our talented nail artists</p>
+
+            <div class="staff-grid" id="staffGrid">
+                <!-- Staff members will be loaded here by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / CTA -->
+    <footer id="book" class="footer">
+        <div class="footer-overlay"></div>
+        <div class="container footer-content text-center scroll-reveal up">
+            <h2>Ready to Experience <span class="gold-text">Perfection?</span></h2>
+            <p>Join us at our private studio in NYC and treat your hands and feet to the luxury they deserve.</p>
+            <a href="#bookModal" onclick="openModal(event)" class="btn-primary btn-large hover-glow">BOOK YOUR
+                APPOINTMENT</a>
+            <div class="footer-info">
+                <p>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round"
+                        style="vertical-align: middle; margin-right: 5px;">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    144w 37TH street 6 floor office "4" NY10018
+                </p>
+                <p class="copyright">&copy; 2026 Russian Nails by Maira Ⓜ️. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <h3 class="modal-title">Book an <span class="gold-text">Appointment</span></h3>
+
+            <form id="bookingForm" name="booking" method="POST" action="/" data-netlify="true">
+                <input type="hidden" name="form-name" value="booking" />
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required placeholder="Jane Doe">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" required placeholder="+1 (555) 000-0000">
+                </div>
+                <div class="form-group">
+                    <label>Service</label>
+                    <div class="custom-select" id="custom-service">
+                        <div class="select-selected">Select a service <span class="arrow">▼</span></div>
+                        <div class="select-items select-hide">
+                            <div data-value="Manicure">Manicure</div>
+                            <div data-value="Russian Manicure with Hard Gel">Russian Manicure with Hard Gel</div>
+                            <div data-value="Russian Gel Extension">Russian Gel Extension</div>
+                            <div data-value="Smart Gel Pedicure">Smart Gel Pedicure</div>
+                            <div data-value="KART Pedicure">KART Pedicure</div>
+                            <div data-value="Japanese Naked Manicure">Japanese Naked Manicure</div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="service" name="service" required>
+                </div>
+
+                <!-- New addition for selecting Master -->
+                <div class="form-group">
+                    <label>Nail Artist</label>
+                    <div class="custom-select" id="custom-master">
+                        <div class="select-selected">Select an artist <span class="arrow">▼</span></div>
+                        <div class="select-items select-hide" id="masterOptions">
+                            <!-- Will be populated dynamically -->
+                        </div>
+                    </div>
+                    <input type="hidden" id="master" name="master" required>
+                </div>
+                <div class="form-group">
+                    <label for="date">Preferred Date</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+
+                <!-- Time Slots Selection (shown after date+master selected) -->
+                <div class="form-group" id="timeSlotGroup" style="display: none;">
+                    <label>Available Time Slots</label>
+                    <div id="timeSlots" class="time-slots-container"></div>
+                    <input type="hidden" id="selected_time_slot" name="selected_time_slot" required>
+                </div>
+
+                <!-- Hidden fields - will be auto-calculated -->
+                <input type="hidden" id="start_time" name="start_time">
+                <input type="hidden" id="end_time" name="end_time">
+                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 0.5rem;">Confirm
+                    Booking</button>
+            </form>
+
+            <div id="bookingSuccess" style="display: none; text-align: center; padding: 2rem 0;">
+                <h3 class="gold-text" style="font-size: 2rem; margin-bottom: 1rem;">Thank You!</h3>
+                <p style="color: var(--text-secondary);">Your request has been sent to Maira. We will contact you
+                    shortly to confirm your appointment time.</p>
+                <button type="button" onclick="closeModal()" class="btn-outline-gold"
+                    style="margin-top: 2rem; width: 100%;">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -32,7 +32,6 @@
                 <li><a href="#about">Our Story</a></li>
                 <li><a href="#services">Services</a></li>
                 <li><a href="#works">Works</a></li>
-                <li><a href="#staff">Staff</a></li>
             </ul>
             <!-- Mobile Hamburger -->
             <div class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
@@ -49,7 +48,6 @@
                     <li><a href="#about" onclick="toggleMobileMenu()">Our Story</a></li>
                     <li><a href="#services" onclick="toggleMobileMenu()">Services</a></li>
                     <li><a href="#works" onclick="toggleMobileMenu()">Works</a></li>
-                    <li><a href="#staff" onclick="toggleMobileMenu()">Staff</a></li>
                 </ul>
                 <a href="#bookModal" onclick="openModal(event); toggleMobileMenu();" class="btn-primary" style="width: 100%; margin-top: 2rem;">Book Appointment</a>
             </div>
@@ -471,17 +469,8 @@
                     <input type="hidden" id="service" name="service" required>
                 </div>
 
-                <!-- New addition for selecting Master -->
-                <div class="form-group">
-                    <label>Nail Artist</label>
-                    <div class="custom-select" id="custom-master">
-                        <div class="select-selected">Select an artist <span class="arrow">▼</span></div>
-                        <div class="select-items select-hide" id="masterOptions">
-                            <!-- Will be populated dynamically -->
-                        </div>
-                    </div>
-                    <input type="hidden" id="master" name="master" required>
-                </div>
+                <!-- Master is fixed to Maira since she's the only one -->
+                <input type="hidden" id="master" name="master" value="Maira - Founder main artist">
                 <div class="form-group">
                     <label for="date">Preferred Date</label>
                     <input type="date" id="date" name="date" required>

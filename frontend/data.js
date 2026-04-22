@@ -6,42 +6,24 @@ const DataManager = {
     DEFAULT_STAFF: [
         {
             id: 1,
-            name: 'Maira',
+            name: 'Maira - Founder main artist',
             spec: 'Founder & Master Artist',
-            phone: '+1-555-0101',
+            phone: '+1(917) 622 1846',
             email: 'maira@russianails.com',
-            avail: 'Mon-Sat 10AM-7PM',
+            avail: 'Mon-Sat 10AM-8PM',
             image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqJJ-liD-TbVUhJLjhSBR5SJV3e8Xt3BsUxw&s',
             description: 'Expert in Russian manicure techniques with 8+ years experience. Specializes in precision work and custom designs.'
-        },
-        {
-            id: 2,
-            name: 'Victoria',
-            spec: 'Senior Nail Artist',
-            phone: '+1-555-0102',
-            email: 'victoria@russianails.com',
-            avail: 'Tue-Sun 11AM-8PM',
-            image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqJJ-liD-TbVUhJLjhSBR5SJV3e8Xt3BsUxw&s',
-            description: 'Specialist in gel extensions and hard gel applications. Known for flawless shapes and long-lasting results.'
-        },
-        {
-            id: 3,
-            name: 'Sofia',
-            spec: 'Nail Technician',
-            phone: '+1-555-0103',
-            email: 'sofia@russianails.com',
-            avail: 'Mon-Fri 9AM-6PM',
-            image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqJJ-liD-TbVUhJLjhSBR5SJV3e8Xt3BsUxw&s',
-            description: 'Pedicure specialist with focus on Smart Gel and KART techniques. Creates perfect balance of strength and beauty.'
         }
     ],
 
     // Initialize data - call this on page load
     init: function() {
-        if (!localStorage.getItem('staff_data')) {
+        // Clear old localStorage data to remove placeholders
+        localStorage.removeItem('staff_data');
+        
+        if (!localStorage.getItem('staff_data') && this.DEFAULT_STAFF.length > 0) {
             this.setStaff(this.DEFAULT_STAFF);
         }
-        // NOTE: bookings_data is now managed by FastAPI backend, not localStorage
     },
 
     // ==================== BOOKINGS FUNCTIONS (FastAPI Integration) ====================
@@ -132,11 +114,11 @@ const DataManager = {
         try {
             const response = await fetch(`${API_BASE_URL}/api/staff`);
             if (!response.ok) {
-                // Fallback to localStorage if backend not available
                 return this.getStaffLocal();
             }
             const staff = await response.json();
-            return staff.length > 0 ? staff : this.getStaffLocal();
+            // Return backend data (even if empty) if request succeeded
+            return Array.isArray(staff) ? staff : [];
         } catch (error) {
             console.log('Backend staff unavailable, using local storage');
             return this.getStaffLocal();

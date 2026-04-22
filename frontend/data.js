@@ -125,11 +125,26 @@ const DataManager = {
         }
     },
 
-    // ==================== STAFF FUNCTIONS (Local localStorage) ====================
+    // ==================== STAFF FUNCTIONS (FastAPI Integration) ====================
 
-    
-    // Staff functions
-    getStaff: function() {
+    // Get staff from backend
+    getStaff: async function() {
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/staff`);
+            if (!response.ok) {
+                // Fallback to localStorage if backend not available
+                return this.getStaffLocal();
+            }
+            const staff = await response.json();
+            return staff.length > 0 ? staff : this.getStaffLocal();
+        } catch (error) {
+            console.log('Backend staff unavailable, using local storage');
+            return this.getStaffLocal();
+        }
+    },
+
+    // Get staff from localStorage (fallback)
+    getStaffLocal: function() {
         try {
             const data = localStorage.getItem('staff_data');
             return data ? JSON.parse(data) : this.DEFAULT_STAFF;
@@ -138,35 +153,125 @@ const DataManager = {
         }
     },
 
+    // Add new staff member to backend
+    addStaff: async function(staffData, photoFile = null) {
+        try {
+            // ✓ VALIDATION: Check all required fields
+            if (!staffData.name || !staffData.name.trim()) {
+                throw new Error('Name is required');
+            }
+            if (!staffData.specialization || !staffData.specialization.trim()) {
+                throw new Error('Specialization is required');
+            }
+            if (!staffData.phone || !staffData.phone.trim()) {
+                throw new Error('Phone is required');
+            }
+            if (!staffData.email || !staffData.email.trim()) {
+                throw new Error('Email is required');
+            }
+            if (!staffData.availability || !staffData.availability.trim()) {
+                throw new Error('Availability is required');
+            }
+
+            console.log('📤 addStaff: Sending to backend', staffData, photoFile);
+            const formData = new FormData();
+            formData.append('name', staffData.name.trim());
+            formData.append('specialization', staffData.specialization.trim());
+            formData.append('phone', staffData.phone.trim());
+            formData.append('email', staffData.email.trim());
+            formData.append('availability', staffData.availability.trim());
+            
+            // Add password header for authentication
+            const adminPassword = sessionStorage.getItem('adminPassword') || '';
+            
+            if (photoFile) {
+                formData.append('photo', photoFile);
+            }
+
+            const response = await fetch(`${API_BASE_URL}/api/staff`, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'x-admin-password': adminPassword
+                }
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('❌ Backend error:', response.status, errorText);
+                throw new Error(`Server error: ${response.status} - ${errorText}`);
+            }
+
+            const newStaff = await response.json();
+            
+            // ✓ Ensure response contains ID
+            if (!newStaff.id) {
+                throw new Error('Server did not return staff ID');
+            }
+
+            console.log('✅ Staff added, response:', newStaff);
+            window.dispatchEvent(new CustomEvent('staffUpdated'));
+            return newStaff;
+        } catch (error) {
+            console.error('❌ Error adding staff:', error);
+            throw error;
+        }
+    },
+
+    // Update staff member on backend
+    updateStaff: async function(id, staffData, photoFile = null) {
+        try {
+            console.log('📤 updateStaff ID:', id, 'Data:', staffData, 'Photo:', photoFile);
+            const formData = new FormData();
+            if (staffData.name) formData.append('name', staffData.name);
+            if (staffData.specialization) formData.append('specialization', staffData.specialization);
+            if (staffData.phone) formData.append('phone', staffData.phone);
+            if (staffData.email) formData.append('email', staffData.email);
+            if (staffData.availability) formData.append('availability', staffData.availability);
+            if (photoFile) {
+                formData.append('photo', photoFile);
+            }
+
+            const response = await fetch(`${API_BASE_URL}/api/staff/${id}`, {
+                method: 'PUT',
+                body: formData
+            });
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('❌ Backend error:', response.status, errorText);
+                throw new Error(`Backend error: ${response.status}`);
+            }
+            const result = await response.json();
+            console.log('✅ Staff updated, response:', result);
+            window.dispatchEvent(new CustomEvent('staffUpdated'));
+            return result;
+        } catch (error) {
+            console.error('❌ Error updating staff:', error);
+            throw error;
+        }
+    },
+
+    // Delete staff member from backend
+    deleteStaff: async function(id) {
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/staff/${id}`, {
+                method: 'DELETE'
+            });
+            if (!response.ok) {
+                throw new Error('Failed to delete staff');
+            }
+            window.dispatchEvent(new CustomEvent('staffUpdated'));
+            return await response.json();
+        } catch (error) {
+            console.error('Error deleting staff:', error);
+            throw error;
+        }
+    },
+
+    // Legacy localStorage functions (for compatibility)
     setStaff: function(staff) {
         localStorage.setItem('staff_data', JSON.stringify(staff));
-        // Trigger update event
         window.dispatchEvent(new CustomEvent('staffUpdated', { detail: staff }));
-    },
-
-    addStaff: function(staff) {
-        const current = this.getStaff();
-        staff.id = staff.id || Date.now();
-        current.push(staff);
-        this.setStaff(current);
-        return staff;
-    },
-
-    updateStaff: function(id, updates) {
-        const staff = this.getStaff();
-        const index = staff.findIndex(s => s.id == id);
-        if (index >= 0) {
-            staff[index] = { ...staff[index], ...updates };
-            this.setStaff(staff);
-            return staff[index];
-        }
-        return null;
-    },
-
-    deleteStaff: function(id) {
-        const staff = this.getStaff();
-        const filtered = staff.filter(s => s.id != id);
-        this.setStaff(filtered);
     }
 };
 

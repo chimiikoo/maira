@@ -328,7 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, true); // Use capture phase to run before the other submit handler
     }
 
-    // 16. Load Staff from DataManager
+    // 16. Load Staff from DataManager (now async with API support)
     function loadStaffMembers() {
         console.log('loadStaffMembers called');
         
@@ -339,54 +339,88 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         console.log('✅ DataManager found');
-        const staff = DataManager.getStaff();
-        console.log('Staff data:', staff);
-
-        // Update staff grid
-        const staffGrid = document.getElementById('staffGrid');
-        console.log('staffGrid element:', staffGrid);
         
-        if (staffGrid) {
-            const delays = ['delay-1', 'delay-2', 'delay-3'];
-            const html = staff.map((member, idx) => `
-                <div class="staff-card scroll-reveal up ${delays[idx] || ''}">
-                    <div class="staff-photo">
-                        <img src="${member.image}" alt="${member.name}" loading="lazy">
-                        <div class="staff-photo-overlay"></div>
-                    </div>
-                    <div class="staff-info">
-                        <h3>${member.name}</h3>
-                        <p class="staff-role">${member.spec}</p>
-                        <p>${member.description}</p>
-                    </div>
-                </div>
-            `).join('');
+        // Call async function to get staff
+        DataManager.getStaff().then(staff => {
+            console.log('Staff data:', staff);
+
+            // Update staff grid
+            const staffGrid = document.getElementById('staffGrid');
+            console.log('staffGrid element:', staffGrid);
             
-            staffGrid.innerHTML = html;
-            console.log('✅ Staff cards inserted:', staff.length);
+            if (staffGrid) {
+                const delays = ['delay-1', 'delay-2', 'delay-3'];
+                const html = staff.map((member, idx) => {
+                    // Use photo from backend if available, otherwise use image fallback
+                    const photoUrl = member.photo || member.image || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqJJ-liD-TbVUhJLjhSBR5SJV3e8Xt3BsUxw&s';
+                    return `
+                        <div class="staff-card scroll-reveal up ${delays[idx] || ''}">
+                            <div class="staff-photo">
+                                <img src="${photoUrl}" alt="${member.name}" loading="lazy">
+                                <div class="staff-photo-overlay"></div>
+                            </div>
+                            <div class="staff-info">
+                                <h3>${member.name}</h3>
+                                <p class="staff-role">${member.specialization || member.spec || 'Specialist'}</p>
+                                <p>${member.description || 'Professional nail artist'}</p>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                
+                staffGrid.innerHTML = html;
+                console.log('✅ Staff cards inserted:', staff.length);
 
-            // Re-observe new elements for scroll reveal
-            const newElements = staffGrid.querySelectorAll('.scroll-reveal');
-            if (window.revealObserver) {
-                newElements.forEach(el => window.revealObserver.observe(el));
+                // Re-observe new elements for scroll reveal
+                const newElements = staffGrid.querySelectorAll('.scroll-reveal');
+                if (window.revealObserver) {
+                    newElements.forEach(el => window.revealObserver.observe(el));
+                }
+            } else {
+                console.error('❌ staffGrid element not found');
             }
-        } else {
-            console.error('❌ staffGrid element not found');
-        }
 
-        // Update master selection in booking form
-        const masterOptions = document.getElementById('masterOptions');
-        if (masterOptions) {
-            masterOptions.innerHTML = staff.map(member =>
-                `<div data-value="${member.name}">${member.name} - ${member.spec}</div>`
-            ).join('');
-            console.log('✅ Master options updated');
-        }
+            // Update master selection in booking form
+            const masterOptions = document.getElementById('masterOptions');
+            if (masterOptions) {
+                masterOptions.innerHTML = staff.map(member =>
+                    `<div data-value="${member.name}">${member.name} - ${member.specialization || member.spec || 'Specialist'}</div>`
+                ).join('');
+                console.log('✅ Master options updated');
+            }
+        }).catch(error => {
+            console.error('❌ Error loading staff:', error);
+        });
     }
 
-    // Load staff when page loads
-    console.log('Calling loadStaffMembers...');
+    // 17. Populate Works Carousel
+    function populateWorksCarousel() {
+        const carousel = document.getElementById('worksCarousel');
+        if (!carousel) return;
+
+        // Populate with 10 images from images/work 1 to work 10
+        // NOTE: The actual files are now in .jpg format
+        const workImages = [];
+        for (let i = 1; i <= 10; i++) {
+            let filename = `work ${i}.jpg`;
+            if (i === 3) filename = `Work 3.jpg`; // Handle specific casing found on disk
+            workImages.push(`images/${filename}`);
+        }
+
+        // Duplicate for seamless scroll
+        const allImages = [...workImages, ...workImages];
+        
+        carousel.innerHTML = allImages.map((src, idx) => `
+            <img src="${src}" alt="Our Work ${idx + 1}" loading="lazy">
+        `).join('');
+        
+        console.log('✅ Works carousel populated');
+    }
+
+    // Load staff and carousel when page loads
+    console.log('Calling initial loaders...');
     loadStaffMembers();
+    populateWorksCarousel();
 
     // Re-initialize custom selects after loading staff
     function initializeCustomSelects() {

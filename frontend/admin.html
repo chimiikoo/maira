@@ -564,7 +564,26 @@
     </style>
 </head>
 <body>
-    <div class="admin-wrapper">
+    <!-- Login Modal -->
+    <div class="modal active" id="loginModal">
+        <div class="modal-content" style="max-width: 400px;">
+            <div class="modal-header">
+                <h2 class="modal-title">Admin Access</h2>
+            </div>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label class="form-label">Admin Password</label>
+                    <input type="password" class="form-control" id="adminPassword" placeholder="Enter password" required autofocus>
+                </div>
+                <div id="loginError" style="color: #DC3545; margin-bottom: 1rem; display: none; font-size: 0.9rem; text-align: center;"></div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary" style="flex:1;">Login</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="admin-wrapper" style="display: none;">
         <!-- Mobile Hamburger -->
         <div class="hamburger" id="hamburger" onclick="toggleSidebar()">
             <span></span>
@@ -804,6 +823,13 @@
                     <label class="form-label">Availability</label>
                     <input type="text" class="form-control" id="staffAvail" placeholder="e.g., Mon-Fri 10AM-6PM">
                 </div>
+                <div class="form-group">
+                    <label class="form-label">Photo</label>
+                    <div style="position: relative; display: flex; gap: 1rem; align-items: center;">
+                        <input type="file" class="form-control" id="staffPhoto" accept="image/*" style="flex: 1;">
+                        <img id="photoPreview" src="" style="display: none; width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">
+                    </div>
+                </div>
                 <div class="form-actions">
                     <button type="button" class="btn btn-secondary" onclick="closeStaffModal()" style="flex:1;">Cancel</button>
                     <button type="submit" class="btn btn-primary" style="flex:1;">Save</button>
@@ -814,6 +840,43 @@
 
     <script src="data.js"></script>
     <script>
+        // ==================== AUTHENTICATION ====================
+        const ADMIN_PASSWORD = 'lovemaira007';
+
+        // Handle admin login
+        function handleLogin(e) {
+            e.preventDefault();
+            const password = document.getElementById('adminPassword').value;
+            
+            if (password === ADMIN_PASSWORD) {
+                sessionStorage.setItem('adminAuthenticated', 'true');
+                sessionStorage.setItem('adminPassword', password);
+                document.getElementById('loginModal').style.display = 'none';
+                document.querySelector('.admin-wrapper').style.display = 'flex';
+                loadBookings();
+                loadStaff();
+            } else {
+                document.getElementById('loginError').textContent = '❌ Incorrect password';
+                document.getElementById('loginError').style.display = 'block';
+                document.getElementById('adminPassword').value = '';
+            }
+        }
+
+        // Check authentication on page load
+        function checkAuthentication() {
+            const isAuthenticated = sessionStorage.getItem('adminAuthenticated') === 'true';
+            if (!isAuthenticated) {
+                document.querySelector('.admin-wrapper').style.display = 'none';
+                document.getElementById('loginModal').style.display = 'flex';
+            } else {
+                document.querySelector('.admin-wrapper').style.display = 'flex';
+                document.getElementById('loginModal').style.display = 'none';
+                loadBookings();
+                loadStaff();
+            }
+        }
+        // ==================== END AUTHENTICATION ====================
+
         let allBookings = [];
         let filteredBookings = [];
         let allStaff = [];
@@ -821,9 +884,8 @@
         let currentEditingBookingId = null;
         let currentEditingStaffId = null;
 
-        // Load initial data
-        loadBookings();
-        loadStaff();
+        // Check authentication on page load
+        checkAuthentication();
         setInterval(loadBookings, 30000);
 
         // Mobile sidebar toggle
@@ -854,11 +916,16 @@
             document.getElementById('staffTable').innerHTML = '<tr><td colspan="6" class="loading">Loading...</td></tr>';
             document.getElementById('staffCards').innerHTML = '<div style="grid-column:1/-1;" class="loading">Loading...</div>';
             
-            // Load from DataManager
-            allStaff = DataManager.getStaff();
-            filteredStaff = [...allStaff];
-            renderStaffTable();
-            renderStaffCards();
+            // Load from DataManager async
+            DataManager.getStaff().then(staff => {
+                allStaff = staff;
+                filteredStaff = [...allStaff];
+                renderStaffTable();
+                renderStaffCards();
+            }).catch(err => {
+                console.error('Error loading staff:', err);
+                document.getElementById('staffTable').innerHTML = '<tr><td colspan="6" class="no-data">Failed to load staff</td></tr>';
+            });
         }
 
         function renderBookingsTable(searchTerm = '') {
@@ -948,19 +1015,23 @@
                 return;
             }
 
-            tbody.innerHTML = filteredStaff.map(s => `
+            tbody.innerHTML = filteredStaff.map(s => {
+                const photoHtml = s.photo ? `<img src="${s.photo}" style="width:40px; height:40px; border-radius:50%; object-fit:cover;">` : '—';
+                const nameCell = s.photo ? `${photoHtml} <strong>${s.name}</strong>` : `<strong>${s.name}</strong>`;
+                return `
                 <tr>
-                    <td><strong>${s.name}</strong></td>
-                    <td>${s.spec}</td>
+                    <td style="display:flex;align-items:center;gap:0.75rem;">${nameCell}</td>
+                    <td>${s.specialization || s.spec || '—'}</td>
                     <td><a href="tel:${s.phone}" style="color:var(--accent);">${s.phone}</a></td>
                     <td><a href="mailto:${s.email}" style="color:var(--accent);">${s.email}</a></td>
-                    <td>${s.avail || s.availability || '—'}</td>
+                    <td>${s.availability || s.avail || '—'}</td>
                     <td class="status-actions">
                         <button class="status-btn edit" onclick="editStaff('${s.id}')">🖊️</button>
-                        <button class="status-btn cancel" onclick="deleteStaff('${s.id}')">🗑️</button>
+                        <button class="status-btn cancel" onclick="deleteStaffMember('${s.id}')">🗑️</button>
                     </td>
                 </tr>
-            `).join('');
+            `;
+            }).join('');
         }
 
         function renderStaffCards() {
@@ -973,11 +1044,14 @@
             cardsDiv.innerHTML = filteredStaff.map(s => `
                 <div class="data-card">
                     <div class="card-header">
-                        <div class="card-title">${s.name}</div>
+                        <div style="display:flex; gap:1rem; align-items:center;">
+                            ${s.photo ? `<img src="${s.photo}" style="width:50px; height:50px; border-radius:50%; object-fit:cover;">` : ''}
+                            <div class="card-title">${s.name}</div>
+                        </div>
                     </div>
                     <div class="card-row">
                         <span class="card-label">Specialization</span>
-                        <span class="card-value">${s.spec}</span>
+                        <span class="card-value">${s.specialization || s.spec || '—'}</span>
                     </div>
                     <div class="card-row">
                         <span class="card-label">Phone</span>
@@ -989,11 +1063,11 @@
                     </div>
                     <div class="card-row">
                         <span class="card-label">Availability</span>
-                        <span class="card-value">${s.avail || s.availability || '—'}</span>
+                        <span class="card-value">${s.availability || s.avail || '—'}</span>
                     </div>
                     <div class="card-actions">
                         <button class="btn btn-secondary" onclick="editStaff('${s.id}')" style="flex:1;">Edit</button>
-                        <button class="btn btn-danger" onclick="deleteStaff('${s.id}')" style="flex:1;">Delete</button>
+                        <button class="btn btn-danger" onclick="deleteStaffMember('${s.id}')" style="flex:1;">Delete</button>
                     </div>
                 </div>
             `).join('');
@@ -1063,6 +1137,8 @@
             document.getElementById('staffPhone').value = '';
             document.getElementById('staffEmail').value = '';
             document.getElementById('staffAvail').value = '';
+            document.getElementById('staffPhoto').value = '';
+            document.getElementById('photoPreview').style.display = 'none';
             document.getElementById('staffModal').classList.add('active');
         }
 
@@ -1072,45 +1148,94 @@
 
             currentEditingStaffId = id;
             document.getElementById('staffName').value = staff.name;
-            document.getElementById('staffSpec').value = staff.spec;
+            document.getElementById('staffSpec').value = staff.specialization || staff.spec || '';
             document.getElementById('staffPhone').value = staff.phone;
             document.getElementById('staffEmail').value = staff.email;
-            document.getElementById('staffAvail').value = staff.avail || staff.availability || '';
+            document.getElementById('staffAvail').value = staff.availability || staff.avail || '';
+            document.getElementById('staffPhoto').value = '';
+            
+            // Show existing photo if available
+            if (staff.photo) {
+                document.getElementById('photoPreview').src = staff.photo;
+                document.getElementById('photoPreview').style.display = 'block';
+            } else {
+                document.getElementById('photoPreview').style.display = 'none';
+            }
+            
             document.getElementById('staffModal').classList.add('active');
         }
 
+        // Photo preview on file select
+        document.addEventListener('change', function(e) {
+            if (e.target && e.target.id === 'staffPhoto') {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        document.getElementById('photoPreview').src = event.target.result;
+                        document.getElementById('photoPreview').style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+        });
+
         function saveStaff(e) {
             e.preventDefault();
-            const data = {
+            console.log('💾 saveStaff called');
+            
+            const staffData = {
                 name: document.getElementById('staffName').value,
-                spec: document.getElementById('staffSpec').value,
+                specialization: document.getElementById('staffSpec').value,
                 phone: document.getElementById('staffPhone').value,
                 email: document.getElementById('staffEmail').value,
-                avail: document.getElementById('staffAvail').value,
-                image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqJJ-liD-TbVUhJLjhSBR5SJV3e8Xt3BsUxw&s',
-                description: 'Professional nail artist'
+                availability: document.getElementById('staffAvail').value
             };
 
-            if (currentEditingStaffId) {
-                DataManager.updateStaff(currentEditingStaffId, data);
-            } else {
-                DataManager.addStaff(data);
-            }
+            const photoFile = document.getElementById('staffPhoto').files[0];
+            console.log('Staff data:', staffData);
+            console.log('Photo file:', photoFile);
 
-            filteredStaff = DataManager.getStaff();
-            allStaff = [...filteredStaff];
-            renderStaffTable();
-            renderStaffCards();
-            closeStaffModal();
+            if (currentEditingStaffId) {
+                // Update existing staff
+                console.log('Updating staff ID:', currentEditingStaffId);
+                DataManager.updateStaff(currentEditingStaffId, staffData, photoFile)
+                    .then(() => {
+                        console.log('✅ Staff updated successfully');
+                        loadStaff();
+                        closeStaffModal();
+                    })
+                    .catch(error => {
+                        console.error('❌ Error saving staff:', error);
+                        alert('Error saving staff: ' + error.message);
+                    });
+            } else {
+                // Add new staff
+                console.log('Adding new staff');
+                DataManager.addStaff(staffData, photoFile)
+                    .then(() => {
+                        console.log('✅ Staff added successfully');
+                        loadStaff();
+                        closeStaffModal();
+                    })
+                    .catch(error => {
+                        console.error('❌ Error adding staff:', error);
+                        alert('Error adding staff: ' + error.message);
+                    });
+            }
         }
 
-        function deleteStaff(id) {
+        function deleteStaffMember(id) {
             if (confirm('Delete this staff member?')) {
-                DataManager.deleteStaff(id);
-                filteredStaff = DataManager.getStaff();
-                allStaff = [...filteredStaff];
-                renderStaffTable();
-                renderStaffCards();
+                DataManager.deleteStaff(id)
+                    .then(() => {
+                        console.log('✅ Staff member deleted successfully');
+                        loadStaff(); // Reload from API
+                    })
+                    .catch(error => {
+                        console.error('Error deleting staff:', error);
+                        alert('Failed to delete staff: ' + error.message);
+                    });
             }
         }
 

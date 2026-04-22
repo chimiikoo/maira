@@ -26,11 +26,12 @@
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <div class="logo">RN <span class="logo-accent">by Maira</span></div>
+            <div class="logo">RN by Maira</div>
             <ul class="nav-links">
                 <li><a href="#hero">Home</a></li>
                 <li><a href="#about">Our Story</a></li>
                 <li><a href="#services">Services</a></li>
+                <li><a href="#works">Works</a></li>
                 <li><a href="#staff">Staff</a></li>
             </ul>
             <!-- Mobile Hamburger -->
@@ -47,6 +48,7 @@
                     <li><a href="#hero" onclick="toggleMobileMenu()">Home</a></li>
                     <li><a href="#about" onclick="toggleMobileMenu()">Our Story</a></li>
                     <li><a href="#services" onclick="toggleMobileMenu()">Services</a></li>
+                    <li><a href="#works" onclick="toggleMobileMenu()">Works</a></li>
                     <li><a href="#staff" onclick="toggleMobileMenu()">Staff</a></li>
                 </ul>
                 <a href="#bookModal" onclick="openModal(event); toggleMobileMenu();" class="btn-primary" style="width: 100%; margin-top: 2rem;">Book Appointment</a>
@@ -74,7 +76,7 @@
                     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                     <circle cx="12" cy="10" r="3"></circle>
                 </svg>
-                <p>144w 37TH street 6 floor office "4" NY10018</p>
+                <p>144 W 37th St, 6th Floor, Office 4, New York, NY 10018</p>
             </div>
 
             <div class="cta-wrapper fade-in delay-5">
@@ -112,11 +114,10 @@
                         art designed to enhance your elegance and confidence.</p>
                     <p class="paragraph">Each client receives personalized attention in a calm, clean, and luxurious
                         environment.</p>
-                    <div class="signature">Maira</div>
                 </div>
                 <!-- Image uses absolute path. Replace for deployment. -->
                 <div class="about-image scroll-reveal left">
-                    <img src="https://images.unsplash.com/photo-1632345031435-8727f6897d53?auto=format&fit=crop&w=1000&q=80"
+                    <img src="/images/plomba.jpg"
                         alt="Nail Salon Interior" class="img-premium shadow-lg">
                     <div class="image-accent-border"></div>
                 </div>
@@ -215,12 +216,12 @@
     <!-- Services Section -->
     <section id="services" class="services">
         <div class="container">
-            <h2 class="section-title text-center scroll-reveal up">Our <span class="gold-text">Menu</span></h2>
+            <h2 class="section-title text-center scroll-reveal up">Our <span class="gold-text">Services</span></h2>
 
             <div class="services-list">
 
                 <!-- Service Item 1 -->
-                <div class="service-item scroll-reveal up">
+                <div class="service-item with-image scroll-reveal up">
                     <div class="service-content">
                         <h4 class="service-title">Manicure</h4>
                         <span class="service-tag">No polish, Minimalist Care, Maximum Clean</span>
@@ -228,25 +229,34 @@
                             and refresh your nails without polish. Promotes healthy growth and keeps your hands
                             perfectly groomed and fresh.</p>
                     </div>
+                    <div class="service-img-wrap">
+                        <img src="/images/japanese%20manicure.JPG" alt="Beauty Manicure">
+                    </div>
                 </div>
 
                 <!-- Service Item 2 -->
-                <div class="service-item scroll-reveal up">
+                <div class="service-item with-image scroll-reveal up">
                     <div class="service-content">
                         <h4 class="service-title">Russian Manicure with Hard Gel</h4>
                         <span class="service-tag">Strength Meets Beauty</span>
                         <p class="service-desc">This reinforced manicure uses strengthening base layers and premium gel
                             polish for added durability, protection, and shine. Lasts for 3.5-4 weeks and more.</p>
                     </div>
+                    <div class="service-img-wrap">
+                        <img src="/images/russian%20manicure%20with%20hard%20gel.jpg" alt="Russian Manicure with Hard Gel">
+                    </div>
                 </div>
 
                 <!-- Service Item 3 -->
-                <div class="service-item scroll-reveal up">
+                <div class="service-item with-image scroll-reveal up">
                     <div class="service-content">
                         <h4 class="service-title">Russian Gel Extension</h4>
                         <span class="service-tag">Precision Sculpted</span>
                         <p class="service-desc">Precision sculpted extensions that add length and structure, creating
                             natural-looking nails with a smooth, durable finish.</p>
+                    </div>
+                    <div class="service-img-wrap">
+                        <img src="/images/russian%20gel%20extensions.jpg" alt="Russian Gel Extension">
                     </div>
                 </div>
 
@@ -260,23 +270,26 @@
                     </div>
                     <!-- Using generated absolute path for pedicure -->
                     <div class="service-img-wrap">
-                        <img src="https://images.unsplash.com/photo-1522338242992-e1a54906a8da?auto=format&fit=crop&w=1000&q=80"
+                        <img src="/images/Smart%20pedicure.jpg"
                             alt="Luxury Smart Gel Pedicure">
                     </div>
                 </div>
 
                 <!-- Service Item 5 -->
-                <div class="service-item scroll-reveal up">
+                <div class="service-item with-image scroll-reveal up">
                     <div class="service-content">
                         <h4 class="service-title">KART Pedicure</h4>
                         <span class="service-tag">Treatment-Focused</span>
                         <p class="service-desc">More than a regular pedicure — it's a treatment-focused service designed
                             to safely and effectively improve the condition of the feet without aggressive filing.</p>
                     </div>
+                    <div class="service-img-wrap">
+                        <img src="/images/kart%20pedicure.jpg" alt="KART Pedicure">
+                    </div>
                 </div>
 
                 <!-- Service Item 6 -->
-                <div class="service-item scroll-reveal up">
+                <div class="service-item with-image scroll-reveal up">
                     <div class="service-content">
                         <h4 class="service-title">Japanese Naked Manicure</h4>
                         <span class="service-tag">Ancient Technique</span>
@@ -284,8 +297,109 @@
                             healthy minerals deep into the nail bed, this manicure requires no polish. Perfect for
                             anyone who wants their hands to look meticulously groomed and natural.</p>
                     </div>
+                    <div class="service-img-wrap">
+                        <img src="/images/japanese%20manicure.JPG" alt="Japanese Naked Manicure">
+                    </div>
                 </div>
 
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Works - Carousel Section -->
+    <section id="works" class="works">
+        <div class="container">
+            <h2 class="section-title text-center scroll-reveal up">Our <span class="gold-text">Works</span></h2>
+            <p class="section-subtitle text-center scroll-reveal up delay-1">Showcasing our finest creations and artistry</p>
+
+            <div class="carousel-wrapper scroll-reveal up delay-2">
+                <div class="carousel-container">
+                    <div class="carousel" id="worksCarousel">
+                        <!-- Images will be generated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Info Section: Hours & Contact -->
+    <section id="info" class="info-section">
+        <div class="container">
+            <div class="info-grid">
+                <!-- Opening Hours -->
+                <div class="info-card scroll-reveal left">
+                    <div class="info-card-header">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        <h3>Opening Hours</h3>
+                    </div>
+                    <div class="hours-list">
+                        <div class="hours-item">
+                            <span class="day">Monday</span>
+                            <span class="time">10:00 am - 20:00 pm</span>
+                        </div>
+                        <div class="hours-item">
+                            <span class="day">Tuesday</span>
+                            <span class="time">10:00 am - 20:00 pm</span>
+                        </div>
+                        <div class="hours-item">
+                            <span class="day">Wednesday</span>
+                            <span class="time">10:00 am - 20:00 pm</span>
+                        </div>
+                        <div class="hours-item">
+                            <span class="day">Thursday</span>
+                            <span class="time">10:00 am - 20:00 pm</span>
+                        </div>
+                        <div class="hours-item">
+                            <span class="day">Friday</span>
+                            <span class="time">10:00 am - 20:00 pm</span>
+                        </div>
+                        <div class="hours-item">
+                            <span class="day">Saturday</span>
+                            <span class="time">10:00 am - 20:00 pm</span>
+                        </div>
+                        <div class="hours-item">
+                            <span class="day">Sunday</span>
+                            <span class="time">Closed</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="info-card scroll-reveal right">
+                    <div class="info-card-header">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                        <h3>Contact Info</h3>
+                    </div>
+                    <div class="contact-content">
+                        <p class="contact-intro">You can always contact us via email or phone. Get in touch and get a quote from us.</p>
+                        
+                        <div class="contact-item">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+                            <div>
+                                <p class="label">Address</p>
+                                <p class="value">144 W 37th St, 6 floor 4 th office, New York, NY 10018</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                            </svg>
+                            <div>
+                                <p class="label">Phone</p>
+                                <p class="value">+1 (917) 622 1846</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -318,7 +432,7 @@
                         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                         <circle cx="12" cy="10" r="3"></circle>
                     </svg>
-                    144w 37TH street 6 floor office "4" NY10018
+                    144 W 37th St, 6th Floor, Office 4, New York, NY 10018
                 </p>
                 <p class="copyright">&copy; 2026 Russian Nails by Maira Ⓜ️. All rights reserved.</p>
             </div>

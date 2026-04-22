@@ -1099,3 +1099,245 @@ h3 { font-size: 1.5rem; letter-spacing: 1px; }
     
     input, textarea, select { font-size: 16px; padding: 0.6rem; }
 }
+
+/* Our Works Carousel */
+.works {
+    padding: 6rem 0;
+    overflow: hidden;
+    background: var(--bg-color);
+}
+
+.carousel-wrapper {
+    position: relative;
+    width: 100%;
+    margin-top: 3rem;
+    overflow: hidden;
+}
+
+/* Linear gradient overlays for smooth fading at the edges */
+.carousel-wrapper::before,
+.carousel-wrapper::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 150px;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.carousel-wrapper::before {
+    left: 0;
+    background: linear-gradient(to right, var(--bg-color), transparent);
+}
+
+.carousel-wrapper::after {
+    right: 0;
+    background: linear-gradient(to left, var(--bg-color), transparent);
+}
+
+.carousel-container {
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.carousel {
+    display: flex;
+    gap: 20px;
+    animation: scrollRightToLeft 50s linear infinite; /* Slower for more premium feel */
+    padding: 20px 0;
+    will-change: transform;
+}
+
+/* Removed hover pause as requested */
+
+.carousel img {
+    width: 320px;
+    height: 450px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+    border: 1px solid rgba(212, 175, 55, 0.15);
+    transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.5s ease;
+    flex-shrink: 0;
+}
+
+.carousel img:hover {
+    transform: translateY(-10px) scale(1.02);
+    border-color: var(--gold);
+    z-index: 3;
+}
+
+@keyframes scrollRightToLeft {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-340px * 10)); } /* Card width 320px + gap 20px */
+}
+
+/* Mobile Responsiveness for Carousel */
+@media (max-width: 768px) {
+    .carousel img {
+        width: 260px;
+        height: 360px;
+    }
+    
+    @keyframes scrollRightToLeft {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(calc(-280px * 10)); } /* 260px + 20px gap */
+    }
+    
+    .carousel-wrapper::before,
+    .carousel-wrapper::after {
+        width: 60px;
+    }
+}
+
+@media (max-width: 480px) {
+    .carousel img {
+        width: 180px;
+        height: 250px;
+        gap: 15px;
+    }
+    
+    .carousel {
+        gap: 15px;
+    }
+    
+    @keyframes scrollRightToLeft {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(calc(-195px * 10)); } /* 180px + 15px gap */
+    }
+    
+    .carousel-wrapper::before,
+    .carousel-wrapper::after {
+        width: 40px;
+    }
+}
+
+/* Info Section (Hours & Contact) */
+.info-section {
+    padding: 6rem 0;
+    background: linear-gradient(to bottom, var(--bg-color), var(--surface-color));
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+}
+
+.info-card {
+    background: var(--surface-light);
+    padding: 3rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: var(--transition);
+}
+
+.info-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(212, 175, 55, 0.3);
+    transform: translateY(-5px);
+}
+
+.info-card-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+    color: var(--gold);
+}
+
+.info-card-header h3 {
+    margin: 0;
+    font-family: var(--font-heading);
+}
+
+.hours-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.hours-item {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.hours-item:last-child {
+    border-bottom: none;
+}
+
+.hours-item .day {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.hours-item .time {
+    color: var(--text-secondary);
+}
+
+.contact-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.contact-intro {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.contact-item {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+}
+
+.contact-item svg {
+    color: var(--gold);
+    flex-shrink: 0;
+    margin-top: 4px;
+}
+
+.contact-item .label {
+    font-size: 0.8rem;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.3rem;
+}
+
+.contact-item .value {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+}
+
+@media (max-width: 900px) {
+    .info-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .info-card {
+        padding: 2rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .info-card {
+        padding: 1.5rem;
+    }
+    
+    .info-card-header h3 {
+        font-size: 1.3rem;
+    }
+    
+    .contact-item .value {
+        font-size: 1rem;
+    }
+}
+
